@@ -15,6 +15,6 @@ In student management.
 
 5- Any student with an ID number will be deleted
 
-#Imge
+# Imge
 ![image](https://github.com/KareemAl3tar/College-Management-System/assets/163475444/63e86b89-ff8f-44c2-b813-b63db542e147)
 
