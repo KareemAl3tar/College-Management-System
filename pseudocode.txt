@@ -1,0 +1,27 @@
+
+محتاج تعديل علشان نقصنا عليه هو وال فلوات شارت ,الفوات شارت ليه نهاية واحده بس 
+
+Let's have a maximum queue size of 4
+Each student has a name and an ID number
+We have a circular queue of students
+    Check if it's empty
+    Check if it's full
+     Add a new student to the end of the queue
+     Remove a student from the front of the queue
+     Get the first student in the queue
+     Show all students in the queue
+Each student added will have a unique ID starting from 2210
+We have a function called Ch that does the following
+     Keeps track of registered students in a list
+     Manages a waiting list of students
+     Repeats until the user decides to exit:
+      Provides options for the user to choose from
+       Reads the user's choice
+              Depending on the choice
+            Adds a student to the waiting list
+             Registers a student if there are any in the waiting list
+             Shows all registered students
+             Shows all students in the waiting list
+             Exits the program
+
+Finally we have a main function that starts the program by calling Ch

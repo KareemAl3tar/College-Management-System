@@ -1,0 +1,234 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+using namespace std;
+const int MAX_SIZE = 4;
+
+struct Student
+{
+    string name;
+    int id;
+};
+
+class CircularQueue
+{
+private:
+    Student items[MAX_SIZE];
+    int front, rear;
+    static int nextID;
+
+public:
+    CircularQueue()
+    {
+        front = rear = -1;
+    }
+
+    bool isEmpty()
+    {
+        return front == -1;
+    }
+
+    bool isFull()
+    {
+        return (front == 0 && rear == MAX_SIZE - 1) || (rear == front - 1) || (front == rear + 1);
+    }
+    void enqueue(const Student &newStudent)
+    {
+        if (isFull())
+        {
+            cout << "Queue Overflow" << endl;
+        }
+        else
+        {
+            if (front == -1)
+            {
+                front = rear = 0;
+            }
+            else if (rear == MAX_SIZE - 1 && front != 0)
+            {
+                rear = 0;
+            }
+            else
+            {
+                rear++;
+            }
+            items[rear] = newStudent;
+            items[rear].id = nextID;
+            nextID = (nextID + 1) % 10000;
+        }
+    }
+
+    void dequeue()
+    {
+        if (isEmpty())
+        {
+            cout << "Queue Underflow" << endl;
+        }
+        else
+        {
+            if (front == rear)
+            {
+                front = rear = -1;
+            }
+            else if (front == MAX_SIZE - 1)
+            {
+                front = 0;
+            }
+            else
+            {
+                front++;
+            }
+        }
+    }
+
+    Student frontElement()
+    {
+        if (isEmpty())
+        {
+            cout << "Queue is empty" << endl;
+            return {"", -1}; // Return default student
+        }
+        else
+        {
+            return items[front];
+        }
+    }
+
+    void display_waitinglist()
+    {
+        if (isEmpty())
+        {
+            cout << "Queue is empty" << endl;
+        }
+        else
+        {
+            cout << "-------------------------" << endl;
+            cout << "| Waiting List          |" << endl;
+            cout << "-------------------------" << endl;
+            cout << "| Name          | ID    |" << endl;
+            cout << "-------------------------" << endl;
+            if (front <= rear)
+            {
+                for (int i = front; i <= rear; i++)
+                {
+                    cout << "| " << setw(13) << left << items[i].name << "| " << setw(6) << left << items[i].id << " |" << endl;
+                }
+            }
+            else
+            {
+                for (int i = front; i < MAX_SIZE; i++)
+                {
+                    cout << "| " << setw(13) << left << items[i].name << "| " << setw(6) << left << items[i].id << " |" << endl;
+                }
+                for (int i = 0; i <= rear; i++)
+                {
+                    cout << "| " << setw(13) << left << items[i].name << "| " << setw(6) << left << items[i].id << " |" << endl;
+                }
+            }
+            cout << "-------------------------" << endl;
+        }
+    }
+};
+
+int CircularQueue::nextID = 2210;
+
+vector<Student> registeredStudents;
+
+void Display_Registration()
+{
+    cout << "-------------------------" << endl;
+    cout << "| Registered Students   |" << endl;
+    cout << "-------------------------" << endl;
+    cout << "| Name          | ID    |" << endl;
+    cout << "-------------------------" << endl;
+    for (const auto &student : registeredStudents)
+    {
+        cout << "| " << setw(13) << left << student.name << "| " << setw(6) << left << student.id << " |" << endl;
+    }
+    cout << "-------------------------" << endl;
+}
+
+void Print_System_Definition()
+{
+    cout << "*" << endl;
+    cout << "*    Welcome to the Registration System!            *" << endl;
+    cout << "*" << endl;
+}
+
+void Ch()
+{
+    CircularQueue waitingList;
+    int choice;
+    Print_System_Definition();
+    do
+    {
+        cout << "Choose an option:" << endl;
+        cout << "1. Add Student to Waiting List" << endl;
+        cout << "2. Process Registration" << endl;
+        cout << "3. Display Registered Students" << endl;
+        cout << "4. Display Students in Waiting List" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        system("cls");
+
+        switch (choice)
+        {
+        case 1:
+        {
+            Student newStudent;
+            if (waitingList.isFull())
+            {
+                cout << "Waiting List is Full" << endl;
+                break;
+            }
+            else
+            {
+                cout << "Enter student name: ";
+                cin.ignore();
+                getline(cin, newStudent.name);
+                waitingList.enqueue(newStudent);
+                cout << "Student " << newStudent.name << " registered successfully." << endl;
+                break;
+            }
+        }
+        case 2:
+        {
+            if (!waitingList.isEmpty())
+            {
+                Student newStudent = waitingList.frontElement();
+                waitingList.dequeue();
+                registeredStudents.push_back(newStudent); // Add to vector
+                cout << "Student " << newStudent.name << " with ID " << newStudent.id << " registered successfully." << endl;
+            }
+            else
+            {
+                cout << "No students in the waiting list." << endl;
+            }
+            break;
+        }
+        case 3:
+        {
+            Display_Registration();
+            break;
+        }
+        case 4:
+            waitingList.display_waitinglist();
+            break;
+        case 5:
+            cout << "Exiting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 5);
+}
+
+int main()
+{
+    Ch(); // Start the registration system
+    return 0;
+}
