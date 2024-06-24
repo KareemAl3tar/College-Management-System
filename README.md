@@ -4,7 +4,7 @@ College management system project using two types of data structures, namely que
 The College Management System is a GUI application that helps
 In student management.
 
-# Features
+• Features
 1- Add a student to the waiting list
 2-Register students according to grades
 3-The request to save them is recorded in a database
